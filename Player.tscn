@@ -1,0 +1,315 @@
+[gd_scene load_steps=7 format=3 uid="uid://blwvckmj75ewl"]
+
+[ext_resource type="Script" uid="uid://bc0hj1wfr5sem" path="res://PlayerScript.gd" id="1_xhfnw"]
+[ext_resource type="Script" uid="uid://shc0vf2j2bh6" path="res://CameraScript.gd" id="2_kpjcp"]
+[ext_resource type="Texture2D" uid="uid://blrjbgbfj7v6r" path="res://Textures/Crosshair.png" id="3_kne1u"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_kpjcp"]
+radius = 1.0
+height = 5.0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kne1u"]
+points = PackedVector3Array(-0.12520654, -0.532801, -0.4805069, 0.022783129, 0.4760704, 0.49888408, 0.16971254, 0.5591441, 0.46417162, 0.23105091, -0.8035912, 0.32045516, 0.40741014, 0.651043, -0.24352328, -0.4827893, 0.59484255, 0.082213186, -0.3628679, -0.68231165, 0.2896967, 0.46904355, -0.65452886, -0.06627126, -0.12744367, 0.8427015, -0.33810276, -0.39343542, -0.6839421, -0.24471663, 0.43825462, 0.62330925, 0.20084947, 0.0841477, 0.977454, 0.11479468, -0.06820232, -0.9764576, -0.12927033, 0.20054972, -0.56312895, -0.4514544, -0.18552664, 0.59545326, -0.4534751, -0.27336287, 0.59226835, 0.40775412, -0.0069364863, -0.47682306, 0.49966025, 0.37582088, -0.5886136, 0.31695515, 0.111579016, 0.5630594, -0.48117727, -0.41725034, 0.5278656, -0.27049688, -0.48454633, -0.59697217, -0.06650971, -0.27974695, 0.90856135, 0.05333608, -0.25019687, -0.8807117, 0.20531891, 0.263647, -0.90277094, -0.1273943, 0.29336792, 0.8715263, -0.15719566, 0.3734115, -0.5263189, -0.32824618, 0.4996626, 0.47664148, -0.0068885577, 0.053105574, 0.8750009, 0.32470253, -0.15454252, -0.5908538, 0.4658794, -0.09727988, -0.7823577, -0.39818847, -0.3876489, -0.49817133, 0.31564978, -0.30067965, -0.58799505, -0.38890144)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kne1u"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_xhfnw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_kpjcp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_kne1u")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -0.5)
+script = ExtResource("2_kpjcp")
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+target_position = Vector3(0, 0, -5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera3D"]
+
+[node name="TextureRect" type="TextureRect" parent="Camera3D/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_kne1u")
+
+[node name="MineLabel" type="Label" parent="Camera3D/CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "
+
+Mining"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="PickUpLabel" type="Label" parent="Camera3D/CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -37.5
+offset_right = 26.5
+offset_bottom = 37.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "
+
+Pick Up"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Inventory" type="GridContainer" parent="Camera3D/CanvasLayer"]
+custom_minimum_size = Vector2(1000, 100)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/h_separation = 10
+columns = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="Camera3D/CanvasLayer/Inventory"]
+self_modulate = Color(18.892, 18.892, 18.892, 1)
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kne1u")
+
+[node name="SlotContainer" type="VBoxContainer" parent="Camera3D/CanvasLayer/Inventory/PanelContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Amount" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="Camera3D/CanvasLayer/Inventory"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kne1u")
+
+[node name="SlotContainer" type="VBoxContainer" parent="Camera3D/CanvasLayer/Inventory/PanelContainer2"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer2/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Amount" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer2/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer3" type="PanelContainer" parent="Camera3D/CanvasLayer/Inventory"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kne1u")
+
+[node name="SlotContainer" type="VBoxContainer" parent="Camera3D/CanvasLayer/Inventory/PanelContainer3"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer3/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Amount" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer3/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer4" type="PanelContainer" parent="Camera3D/CanvasLayer/Inventory"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kne1u")
+
+[node name="SlotContainer" type="VBoxContainer" parent="Camera3D/CanvasLayer/Inventory/PanelContainer4"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer4/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Amount" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer4/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer5" type="PanelContainer" parent="Camera3D/CanvasLayer/Inventory"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kne1u")
+
+[node name="SlotContainer" type="VBoxContainer" parent="Camera3D/CanvasLayer/Inventory/PanelContainer5"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer5/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Amount" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer5/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer6" type="PanelContainer" parent="Camera3D/CanvasLayer/Inventory"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kne1u")
+
+[node name="SlotContainer" type="VBoxContainer" parent="Camera3D/CanvasLayer/Inventory/PanelContainer6"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer6/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Amount" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer6/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer7" type="PanelContainer" parent="Camera3D/CanvasLayer/Inventory"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kne1u")
+
+[node name="SlotContainer" type="VBoxContainer" parent="Camera3D/CanvasLayer/Inventory/PanelContainer7"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer7/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Amount" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer7/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer8" type="PanelContainer" parent="Camera3D/CanvasLayer/Inventory"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kne1u")
+
+[node name="SlotContainer" type="VBoxContainer" parent="Camera3D/CanvasLayer/Inventory/PanelContainer8"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer8/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Amount" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer8/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer9" type="PanelContainer" parent="Camera3D/CanvasLayer/Inventory"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kne1u")
+
+[node name="SlotContainer" type="VBoxContainer" parent="Camera3D/CanvasLayer/Inventory/PanelContainer9"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer9/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Amount" type="Label" parent="Camera3D/CanvasLayer/Inventory/PanelContainer9/SlotContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CraftingWindow" type="HBoxContainer" parent="Camera3D/CanvasLayer"]
+visible = false
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Hand" type="Node3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3880079, -1.85571, -2.0087419)

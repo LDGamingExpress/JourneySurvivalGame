@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://v53frp335i78"]
+
+[ext_resource type="PackedScene" uid="uid://4atdp3oe5ut0" path="res://Models/AutumnLog.glb" id="1_q72ua"]
+
+[node name="Log" type="Node3D"]
+metadata/Loot = "Log"
+metadata/Amount = 1
+
+[node name="AutumnLog" parent="." groups=["Log", "Pickup"] instance=ExtResource("1_q72ua")]

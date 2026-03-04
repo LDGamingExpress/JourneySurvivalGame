@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://glr6vdjjl1cd"]
+
+[ext_resource type="PackedScene" uid="uid://bbaork5efhvce" path="res://Tree.tscn" id="3_rf2cd"]
+[ext_resource type="PackedScene" uid="uid://blwvckmj75ewl" path="res://Player.tscn" id="3_rpqi1"]
+[ext_resource type="PackedScene" uid="uid://bdxjpb3mnfcdy" path="res://Models/Land.glb" id="3_uxrcv"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rf2cd"]
+sky_top_color = Color(0.16698787, 0.44567633, 0.79136544, 1)
+sky_horizon_color = Color(0.3004801, 0.53512263, 0.54915994, 1)
+
+[sub_resource type="Sky" id="Sky_a814b"]
+sky_material = SubResource("ProceduralSkyMaterial_rf2cd")
+
+[sub_resource type="Environment" id="Environment_5crlr"]
+background_mode = 2
+sky = SubResource("Sky_a814b")
+fog_enabled = true
+fog_light_color = Color(0.7716614, 0.7942721, 0.8294512, 1)
+fog_density = 0.005
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Land" parent="." instance=ExtResource("3_uxrcv")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -0.7320535, -2.0631938, 0.5453644)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5crlr")
+
+[node name="Player" parent="." instance=ExtResource("3_rpqi1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.02606, 9.199289)
+
+[node name="Tree" parent="." instance=ExtResource("3_rf2cd")]
+transform = Transform3D(0.6977654, 0, 0.7163263, 0, 1, 0, -0.7163263, 0, 0.6977654, -29.107399, 0.25170195, -13.355081)
+
+[node name="Tree2" parent="." instance=ExtResource("3_rf2cd")]
+transform = Transform3D(0.47131982, 0, -0.88196236, 0, 1, 0, 0.88196236, 0, 0.47131982, -16.861004, 2.6212554, -54.67669)
+
+[node name="Tree3" parent="." instance=ExtResource("3_rf2cd")]
+transform = Transform3D(0.6754744, 0, -0.7373834, 0, 1, 0, 0.7373834, 0, 0.6754744, -66.554756, -1.6332337, 34.09053)
+
+[node name="Tree4" parent="." instance=ExtResource("3_rf2cd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.27426, 15.570286, -23.896917)
+
+[node name="Tree5" parent="." instance=ExtResource("3_rf2cd")]
+transform = Transform3D(-0.9335053, 0, 0.35856357, 0, 1, 0, -0.35856357, 0, -0.9335053, 9.050518, -1.642872, 48.58699)

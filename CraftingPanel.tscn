@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://cl6vnythv7vkk"]
+
+[ext_resource type="Script" uid="uid://b3feny7r75sev" path="res://CraftingPanelScript.gd" id="1_keha7"]
+
+[node name="CraftingPanel" type="PanelContainer"]
+script = ExtResource("1_keha7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(150, 100)
+layout_mode = 2
+text = "Wooden Sword
+1 Log
+1 Stick"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="CraftButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Craft"
+
+[connection signal="pressed" from="VBoxContainer/CraftButton" to="." method="_on_craft_button_pressed"]
