@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
-const SPEED = 10.0 # Player speed
-const JUMP_VELOCITY = 5.5 # Player jump velocity
+const SPEED = 1.0 # Player speed
+const JUMP_VELOCITY = 5.5/2.0 # Player jump velocity
 var push_force = 1.0 # Player push force; used to allow forces on rigid bodies
 
 var MineObject = null # Node the player can mine

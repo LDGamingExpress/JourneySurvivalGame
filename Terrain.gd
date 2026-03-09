@@ -42,8 +42,8 @@ var normal_array : PackedVector3Array
 var tangent_array : PackedFloat32Array
 var color_array : PackedColorArray
 
-func _ready() -> void:
-	update_mesh()
+#func _ready() -> void:
+#	update_mesh()
 
 func update_mesh():
 	plane = PlaneMesh.new()
@@ -63,7 +63,12 @@ func update_mesh():
 		#var tangent := Vector3.RIGHT
 		
 		if height_map:
-			vertex.y = pow(height_map.get_noise_2d(vertex.x,vertex.z) * height,4)
+			var distToCenter = sqrt(pow(vertex.x,2.0) + pow(vertex.z,2.0))
+			if distToCenter <= resolution/10.0:
+				distToCenter = resolution/10.0
+			vertex.y = pow(height_map.get_noise_2d(vertex.x,vertex.z) * height,2) * pow(resolution/distToCenter,1.1)
+			if distToCenter >= resolution/10.0*2.5:
+				vertex.y -= (distToCenter - resolution/10.0*2.5) * 0.25
 			vertex_array[i] = vertex
 	
 	for i in range(0, index_array.size(), 3):
