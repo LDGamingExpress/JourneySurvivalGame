@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
-const SPEED = 10.0 # Player speed
-const JUMP_VELOCITY = 5.5 # Player jump velocity
+var SPEED = 10.0 # Player speed
+var JUMP_VELOCITY = 5.5 # Player jump velocity
 var push_force = 1.0 # Player push force; used to allow forces on rigid bodies
 
 var MineObject = null # Node the player can mine
@@ -10,6 +10,17 @@ var MineProgress = 0.0 # Progress the player has made into mining the object
 var PickUpObject = null # Node the player can pick up
 
 var InitialRayActive = true # Used to set the initial position of the player
+
+#Player stats 
+var Health = 10.0
+var HealthTween
+
+var Hunger = 100.0
+var HungerTween
+
+#Used for fall damage
+var IsInAir = true
+var InitialHeight = 0.0
 
 var Inventory = [[],
 	[],
@@ -72,7 +83,7 @@ func _input(event): # Checks for input
 func _physics_process(delta: float) -> void:
 	
 	if InitialRayActive and get_node("InitialRay").is_colliding():
-		position.y = get_node("InitialRay").get_collision_point().y + 10.0
+		position.y = get_node("InitialRay").get_collision_point().y + 5.0
 		InitialRayActive = false
 		
 	
@@ -125,10 +136,43 @@ func _physics_process(delta: float) -> void:
 	# Gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+		#Used to calculate fall damage
+		if !IsInAir:
+			IsInAir = true
+			InitialHeight = position.y
+	elif is_on_floor() and IsInAir:
+		#Fall damage is taken if player falls atleast 4 units down
+		IsInAir = false
+		var damage = clamp((InitialHeight - position.y) - 4, 0, 10)
+		InitialHeight = 0.0
+		Damage(damage)
+	
+	#Handles Regenerating health
+	if Health < 9.0 and Hunger >= 10.0 and $HungerTimer.is_stopped():
+		Damage(-1.0)
+		UpdateHunger(10.0)
+		$HungerTimer.start(2.0)
+	elif $HungerTimer.is_stopped() and Health < 10.0 and Hunger > 0.0:
+		var regen
+		if (10.0 - Health) < (100.0 - Hunger) / 10.0:
+			regen = 10.0 - Health
+		else:
+			regen = (100.0 - Hunger) / 10.0
+		
+		Damage(-regen)
+		UpdateHunger(regen * 10.0)
+		$HungerTimer.start(2.0)
+	
+	if Hunger <= 0.0 and $HungerTimer.is_stopped():
+		Damage(0.5)
+		SPEED = 5.0
+		JUMP_VELOCITY = 2.75
+		$HungerTimer.start(2.0)
 	
 	# Handle jump.
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		UpdateHunger(1.0)
 	
 	# Mining objects
 	if MineObject != null: # Checks if there is an object to mine
@@ -196,6 +240,7 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
+		UpdateHunger(delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
@@ -281,3 +326,25 @@ func RefreshHand():
 			# Freezes the rigid body so that it does not fall in the player's hand
 		
 		$Camera3D/Hand.add_child(NewObj) # Adds the model as a child of the player's hand
+
+func UpdateHunger(hunger : float):
+	if HungerTween:
+		HungerTween.kill()
+	
+	Hunger -= hunger
+	Hunger = clamp(Hunger, 0.0, 100.0)
+	
+	#HungerTween = create_tween()
+	$Camera3D/CanvasLayer/HungerPanel/HungerBar.value = Hunger
+	#HungerTween.tween_property($Camera3D/CanvasLayer/HungerPanel/HungerBar, "value", Hunger, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+func Damage(damage : float):
+	if HealthTween:
+		HealthTween.kill()
+	
+	Health -= damage
+	Health = clamp(Health, 0.0, 10.0)
+	
+	#HealthTween = create_tween()
+	$Camera3D/CanvasLayer/HealthPanel/HealthBar.value = Health
+	#HealthTween.tween_property($Camera3D/CanvasLayer/HealthPanel/HealthBar, "value", Health, 0.05).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)

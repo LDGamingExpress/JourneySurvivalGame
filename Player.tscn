@@ -311,5 +311,58 @@ offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
 
+[node name="HealthPanel" type="Panel" parent="Camera3D/CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -131.0
+offset_top = -128.0
+offset_right = -21.0
+offset_bottom = -103.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HealthBar" type="ProgressBar" parent="Camera3D/CanvasLayer/HealthPanel"]
+self_modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 2.5
+offset_right = 105.0
+offset_bottom = 22.5
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[node name="HungerPanel" type="Panel" parent="Camera3D/CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 19.0
+offset_top = -128.0
+offset_right = 129.0
+offset_bottom = -103.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HungerBar" type="ProgressBar" parent="Camera3D/CanvasLayer/HungerPanel"]
+self_modulate = Color(1, 0.654902, 0.14901961, 1)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 2.5
+offset_right = 105.0
+offset_bottom = 22.5
+step = 0.1
+value = 100.0
+fill_mode = 1
+show_percentage = false
+
 [node name="Hand" type="Node3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3880079, -1.85571, -2.0087419)
+
+[node name="HungerTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
