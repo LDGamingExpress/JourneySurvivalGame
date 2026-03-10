@@ -5,7 +5,7 @@
 
 [node name="Rock" type="Node3D"]
 metadata/Drops = [ExtResource("1_rlel2")]
-metadata/Amounts = [2]
+metadata/Amounts = [3]
 metadata/MineTime = 1.5
 
 [node name="Rock3" parent="." groups=["Mineable", "Pickaxe"] instance=ExtResource("2_fw4ce")]
