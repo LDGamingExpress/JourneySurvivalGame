@@ -8,4 +8,4 @@ metadata/Drops = [ExtResource("1_mwt13")]
 metadata/Amounts = [2]
 metadata/MineTime = 1.5
 
-[node name="Rock1" parent="." groups=["Mineable"] instance=ExtResource("2_6xwv0")]
+[node name="Rock1" parent="." groups=["Mineable", "Pickaxe"] instance=ExtResource("2_6xwv0")]

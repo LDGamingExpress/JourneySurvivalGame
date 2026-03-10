@@ -15,6 +15,12 @@ run/main_scene="uid://nuvab6yipkgj"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[global_group]
+
+Axe=""
+Pickaxe=""
+Any=""
+
 [input]
 
 Forward={

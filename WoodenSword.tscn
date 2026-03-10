@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=3 uid="uid://v16yxfwfifyc"]
+
+[ext_resource type="Script" uid="uid://casbo82uly7ax" path="res://Sword.gd" id="1_r878w"]
+[ext_resource type="PackedScene" uid="uid://whvp2n1236ud" path="res://Models/WoodenSword.glb" id="2_n3ds7"]
+
+[sub_resource type="Animation" id="Animation_wp04t"]
+resource_name = "SwordSwing"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WoodenSword:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.053333342, 0.23333333, 0.46666667, 0.6666667, 0.79, 0.92, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.32423234), Vector3(0, 0, -0.13224328), Vector3(0, 0, -0.19885886), Vector3(0, 0, -0.412), Vector3(0, 0, -0.412), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WoodenSword:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.053333342, 0.23333333, 0.46666667, 0.6666667, 0.79, 0.92, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.37940148, -0.872437, -0.24042605), Vector3(-0.77318084, -0.10646509, -1.1397), Vector3(-0.77318084, 0.3228859, -1.1397), Vector3(-0.57459956, 0.6020475, -1.2937484), Vector3(-0.26365936, -0.06405392, -0.3160776), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_kf4en"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WoodenSword:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WoodenSword:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wbql4"]
+_data = {
+&"RESET": SubResource("Animation_kf4en"),
+&"SwordSwing": SubResource("Animation_wp04t")
+}
+
+[node name="WoodenSword" type="Node3D"]
+script = ExtResource("1_r878w")
+
+[node name="WoodenSword" parent="." instance=ExtResource("2_n3ds7")]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.9999997, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WoodenSword"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_wbql4")
+}

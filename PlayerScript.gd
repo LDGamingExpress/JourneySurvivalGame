@@ -37,15 +37,23 @@ var Inventory = [[],
 # Ex: ["Log",5] for 5 logs
 
 var Recipes =[
-	["Wooden Sword",[["Log",1],["Stick",1]],1],
-	["Stick",[["Log",1]],4]
+	["Stick",[["Log",1]],4],
+	["Wooden Sword",[["Log",2],["Stick",1]],1],
+	["Wooden Axe",[["Log",3],["Stick",1]],1],
+	["Wooden Pick",[["Log",3],["Stick",1]],1],
+	["Stone Axe",[["Stone",3],["Stick",1]],1],
+	["Stone Pick",[["Stone",3],["Stick",1]],1],
 ]
 # Recipes using an array of arrays
 # Setup: ["Name of Item to Craft",[["Name of Item Needed for Crafting", Integer Amount of Item Needed], ...], Integer Amount of Item That Will Be Crafted]
 # Ex: ["Wooden Sword",[["Log",1],["Stick",1]],1] for crafting 1 Wooden Sword using 1 Log and 1 Stick.
 
 var ItemPaths = {
-	"Wooden Sword": "res://Models/WoodenSword.glb",
+	"Wooden Sword": "res://WoodenSword.tscn",
+	"Wooden Axe": "res://WoodenAxe.tscn",
+	"Wooden Pick": "res://WoodenPickaxe.tscn",
+	"Stone Axe": "res://StoneAxe.tscn",
+	"Stone Pick": "res://StonePickaxe.tscn",
 	"Log": "res://Models/AutumnLog.glb",
 	"Stick": "res://Models/Stick.glb",
 	"Stone": "res://Models/SmallStone.glb"
@@ -125,7 +133,21 @@ func _physics_process(delta: float) -> void:
 	if $Camera3D/RayCast3D.is_colliding(): # Checks if the raycast coming out the player is colliding with an object
 		if $Camera3D/RayCast3D.get_collider() != null: # Makes sure the object still exists (required when object is deleted but still detected)
 			if $Camera3D/RayCast3D.get_collider().get_parent().get_parent().is_in_group("Mineable"): # Checks if object can be mined
-				MineObject = $Camera3D/RayCast3D.get_collider().get_parent().get_parent().get_parent()
+				if $Camera3D/Hand.get_children().size() > 0:
+					var currEquip = $Camera3D/Hand.get_child(0).get_child(0)
+					var currObj = $Camera3D/RayCast3D.get_collider().get_parent().get_parent()
+					if currEquip.is_in_group("Axe") and currObj.is_in_group("Axe"):
+						MineObject = $Camera3D/RayCast3D.get_collider().get_parent().get_parent().get_parent()
+					elif currEquip.is_in_group("Pickaxe") and currObj.is_in_group("Pickaxe"):
+						MineObject = $Camera3D/RayCast3D.get_collider().get_parent().get_parent().get_parent()
+					elif currObj.is_in_group("Any"):
+						MineObject = $Camera3D/RayCast3D.get_collider().get_parent().get_parent().get_parent()
+					else:
+						MineObject = null
+				else:
+					var currObj = $Camera3D/RayCast3D.get_collider().get_parent().get_parent()
+					if currObj.is_in_group("Any"):
+						MineObject = $Camera3D/RayCast3D.get_collider().get_parent().get_parent().get_parent()
 			if $Camera3D/RayCast3D.get_collider().get_parent().is_in_group("Pickup"): # Checks if object can be picked up
 				PickUpObject = $Camera3D/RayCast3D.get_collider().get_parent().get_parent()
 			# Note: These get_parent() amounts are based on the mineable objects being static and the pickups being rigid bodies.
@@ -180,6 +202,10 @@ func _physics_process(delta: float) -> void:
 		# Changes cursor color to show player can mine
 		
 		if Input.is_action_pressed("Mine"): # Checks if player is pressing button to mine
+			if MineProgress == 0.0 and $Camera3D/Hand.get_children().size() > 0:
+				if $Camera3D/Hand.get_child(0).is_in_group("Axe") or $Camera3D/Hand.get_child(0).is_in_group("Pickaxe"):
+					MineProgress = $Camera3D/Hand.get_child(0).boost
+			
 			$Camera3D/CanvasLayer/MineLabel.visible = true # Displays text to show player is mining
 			MineProgress += delta # Adds time to mining progress (seconds)
 			if MineProgress >= MineObject.get_meta("MineTime"): # Grabs the meta data of the mineable object for mining time

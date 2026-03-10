@@ -9,4 +9,4 @@ metadata/Drops = [ExtResource("1_dn7q5"), ExtResource("2_72j6q")]
 metadata/Amounts = [1, 2]
 metadata/MineTime = 1.0
 
-[node name="SpringTree" parent="." groups=["Mineable", "Tree"] instance=ExtResource("3_72j6q")]
+[node name="SpringTree" parent="." groups=["Any", "Axe", "Hand", "Mineable", "Tree"] instance=ExtResource("3_72j6q")]
