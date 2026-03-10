@@ -9,6 +9,8 @@ var MineProgress = 0.0 # Progress the player has made into mining the object
 
 var PickUpObject = null # Node the player can pick up
 
+var InitialRayActive = true # Used to set the initial position of the player
+
 var Inventory = [[],
 	[],
 	[],
@@ -69,6 +71,11 @@ func _input(event): # Checks for input
 # Called continuously
 func _physics_process(delta: float) -> void:
 	
+	if InitialRayActive and get_node("InitialRay").is_colliding():
+		position.y = get_node("InitialRay").get_collision_point().y + 10.0
+		InitialRayActive = false
+		
+	
 	var LastItemSelected = ItemSelected # Tracks the last item selected for comparison
 	
 	if Input.is_action_just_released("ItemLeft"): # Checks if the player scrolls left in their inventory
@@ -112,7 +119,9 @@ func _physics_process(delta: float) -> void:
 				PickUpObject = $Camera3D/RayCast3D.get_collider().get_parent().get_parent()
 			# Note: These get_parent() amounts are based on the mineable objects being static and the pickups being rigid bodies.
 			# If this is switched, you will need to change the get_parent() amounts as these are based on the generated paths from the collision nodes.
-	
+	else:
+		MineObject = null
+		PickUpObject = null
 	# Gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta

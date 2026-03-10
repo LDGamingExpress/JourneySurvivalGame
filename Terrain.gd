@@ -157,8 +157,6 @@ func update_mesh():
 	
 	get_parent().get_parent().get_node("WorldObjects").scale = Vector3(10.0,10.0,10.0)
 	
-	get_parent().get_parent().get_node("Player").position.y = get_parent().get_parent().get_node("Player").get_node("InitialRay").get_collision_point().y * 10.0 + 100.0
-	#get_parent().get_parent().get_node("Player").get_node("InitialRay").queue_free()
 
 func get_tangent(i : int):
 	var tangent := normal_array[i].cross(Vector3.UP)
