@@ -42,10 +42,15 @@ var normal_array : PackedVector3Array
 var tangent_array : PackedFloat32Array
 var color_array : PackedColorArray
 
-#func _ready() -> void:
-#	update_mesh()
+func _ready() -> void:
+	update_mesh()
 
 func update_mesh():
+	scale = Vector3(1.0,1.0,1.0)
+	
+	height_map.seed = randi_range(0,100)
+	#height_map.seed = 0
+	
 	plane = PlaneMesh.new()
 	plane.subdivide_depth = resolution
 	plane.subdivide_width = resolution
@@ -109,8 +114,17 @@ func update_mesh():
 	
 	var material = StandardMaterial3D.new()
 	material.vertex_color_use_as_albedo = true
+	material.albedo_texture = load("res://Models/Land_Ground037_1K-PNG_Color.png")
+	material.uv1_scale = Vector3(30.0,30.0,30.0)
 	mesh.surface_set_material(0, material)
-
+	
+	scale = Vector3(10.0,10.0,10.0)
+	
+	#mesh.create_trimesh_shape()
+	get_parent().get_node("CollisionShape3D").shape = mesh.create_trimesh_shape()
+	
+	get_parent().get_parent().get_node("Player").position.y = get_parent().get_parent().get_node("Player").get_node("InitialRay").get_collision_point().y * 10.0 + 100.0
+	#get_parent().get_parent().get_node("Player").get_node("InitialRay").queue_free()
 
 func get_tangent(i : int):
 	var tangent := normal_array[i].cross(Vector3.UP)
