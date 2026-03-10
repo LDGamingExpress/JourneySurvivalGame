@@ -145,11 +145,11 @@ func _physics_process(delta: float) -> void:
 		IsInAir = false
 		var damage = clamp((InitialHeight - position.y) - 4, 0, 10)
 		InitialHeight = 0.0
-		Damage(damage)
+		UpdateHealth(damage)
 	
 	#Handles Regenerating health
 	if Health < 9.0 and Hunger >= 10.0 and $HungerTimer.is_stopped():
-		Damage(-1.0)
+		UpdateHealth(-1.0)
 		UpdateHunger(10.0)
 		$HungerTimer.start(2.0)
 	elif $HungerTimer.is_stopped() and Health < 10.0 and Hunger > 0.0:
@@ -159,12 +159,12 @@ func _physics_process(delta: float) -> void:
 		else:
 			regen = (100.0 - Hunger) / 10.0
 		
-		Damage(-regen)
+		UpdateHealth(-regen)
 		UpdateHunger(regen * 10.0)
 		$HungerTimer.start(2.0)
 	
 	if Hunger <= 0.0 and $HungerTimer.is_stopped():
-		Damage(0.5)
+		UpdateHealth(0.5)
 		SPEED = 5.0
 		JUMP_VELOCITY = 2.75
 		$HungerTimer.start(2.0)
@@ -327,6 +327,14 @@ func RefreshHand():
 		
 		$Camera3D/Hand.add_child(NewObj) # Adds the model as a child of the player's hand
 
+func Eat(hunger : float):
+	UpdateHunger(-hunger)
+	if SPEED == 5.0:
+		SPEED = 10.0
+	if JUMP_VELOCITY == 2.75:
+		JUMP_VELOCITY = 5.5
+
+
 func UpdateHunger(hunger : float):
 	if HungerTween:
 		HungerTween.kill()
@@ -338,7 +346,7 @@ func UpdateHunger(hunger : float):
 	$Camera3D/CanvasLayer/HungerPanel/HungerBar.value = Hunger
 	#HungerTween.tween_property($Camera3D/CanvasLayer/HungerPanel/HungerBar, "value", Hunger, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
-func Damage(damage : float):
+func UpdateHealth(damage : float):
 	if HealthTween:
 		HealthTween.kill()
 	
