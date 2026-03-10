@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxhxyc7huggpq"]
+
+[ext_resource type="PackedScene" uid="uid://chechh8v3ns0d" path="res://Models/SmallStone.glb" id="1_177fh"]
+
+[node name="Stone" type="Node3D"]
+metadata/Loot = "Stone"
+metadata/Amount = 1
+
+[node name="SmallStone" parent="." groups=["Pickup"] instance=ExtResource("1_177fh")]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dy0qc70ba64g2"]
+
+[ext_resource type="PackedScene" uid="uid://dxhxyc7huggpq" path="res://Stone.tscn" id="1_mwt13"]
+[ext_resource type="PackedScene" uid="uid://td7ld66620ih" path="res://Models/Rock1.glb" id="2_6xwv0"]
+
+[node name="Rock" type="Node3D"]
+metadata/Drops = [ExtResource("1_mwt13")]
+metadata/Amounts = [2]
+metadata/MineTime = 1.5
+
+[node name="Rock1" parent="." groups=["Mineable"] instance=ExtResource("2_6xwv0")]

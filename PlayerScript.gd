@@ -34,7 +34,8 @@ var Recipes =[
 var ItemPaths = {
 	"Wooden Sword": "res://Models/WoodenSword.glb",
 	"Log": "res://Models/AutumnLog.glb",
-	"Stick": "res://Models/Stick.glb"
+	"Stick": "res://Models/Stick.glb",
+	"Stone": "res://Models/SmallStone.glb"
 }
 # Dictionary tying the names of items (same as in the inventory and crafting) to the model paths for displaying the items
 # Can modify to reference necessary scenes of the items if not just a model is needed
@@ -134,8 +135,8 @@ func _physics_process(delta: float) -> void:
 					for j in range(0,MineObject.get_meta("Amounts")[i]): # Loops through the amounts for each drop based on the object's meta data
 						Counter += 1 # Increases counter for each item being dropped
 						var NewObj = MineObject.get_meta("Drops")[i].instantiate() # Instantiates the dropped loot
-						NewObj.position = MineObject.position + Vector3(0,4*Counter,0) # Uses counter to spawn each dropped lot 4 units above the last
-						MineObject.get_parent().add_child(NewObj) # Adds loot to the scene
+						NewObj.position = MineObject.global_position + Vector3(0,4*Counter,0) # Uses counter to spawn each dropped lot 4 units above the last
+						get_parent().add_child(NewObj) # Adds loot to the scene
 				MineObject.queue_free() # Deletes the mined object
 				MineObject = null # Resets variable as mined object no longer exists
 				MineProgress = 0.0 # Resets mining progress

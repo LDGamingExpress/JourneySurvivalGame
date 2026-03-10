@@ -42,10 +42,20 @@ var normal_array : PackedVector3Array
 var tangent_array : PackedFloat32Array
 var color_array : PackedColorArray
 
+var Trees = ["res://Tree.tscn"]
+var Rocks = ["res://Rock1.tscn","res://Rock2.tscn","res://Rock3.tscn"]
+
 func _ready() -> void:
 	update_mesh()
 
 func update_mesh():
+	var children = get_parent().get_parent().get_node("WorldObjects").get_children()
+	for child in children:
+		child.queue_free()
+	
+	var TreePoints = []
+	var RockPoints = []
+	
 	scale = Vector3(1.0,1.0,1.0)
 	
 	height_map.seed = randi_range(0,100)
@@ -75,6 +85,13 @@ func update_mesh():
 			if distToCenter >= resolution/10.0*2.5:
 				vertex.y -= (distToCenter - resolution/10.0*2.5) * 0.25
 			vertex_array[i] = vertex
+		
+		if vertex.y > 0.0:
+			if randf_range(0.0,100.0) > 90.0:
+				if (vertex.y <= 10.0 and randf_range(0,100.0) > 30.0) or (vertex.y > 10.0 and randf_range(0,100.0) <= 30.0):
+					TreePoints.append(Vector3(vertex.x,vertex.y,vertex.z))
+				else:
+					RockPoints.append(Vector3(vertex.x,vertex.y,vertex.z))
 	
 	for i in range(0, index_array.size(), 3):
 		var i0 = index_array[i]
@@ -122,6 +139,23 @@ func update_mesh():
 	
 	#mesh.create_trimesh_shape()
 	get_parent().get_node("CollisionShape3D").shape = mesh.create_trimesh_shape()
+	
+	get_parent().get_parent().get_node("WorldObjects").scale = Vector3(1.0,1.0,1.0)
+	
+	for i in range(0,len(TreePoints)):
+		var NewObj = load(Trees.pick_random()).instantiate()
+		NewObj.position = TreePoints[i] - Vector3(0,0.05,0)
+		NewObj.rotation.y = randf_range(0, 2*PI)
+		NewObj.scale = Vector3(0.1,0.1,0.1)
+		get_parent().get_parent().get_node("WorldObjects").call_deferred("add_child",NewObj)
+	
+	for i in range(0,len(RockPoints)):
+		var NewObj = load(Rocks.pick_random()).instantiate()
+		NewObj.position = RockPoints[i] + Vector3(0,0.1,0)
+		NewObj.scale = Vector3(0.1,0.1,0.1)
+		get_parent().get_parent().get_node("WorldObjects").call_deferred("add_child",NewObj)
+	
+	get_parent().get_parent().get_node("WorldObjects").scale = Vector3(10.0,10.0,10.0)
 	
 	get_parent().get_parent().get_node("Player").position.y = get_parent().get_parent().get_node("Player").get_node("InitialRay").get_collision_point().y * 10.0 + 100.0
 	#get_parent().get_parent().get_node("Player").get_node("InitialRay").queue_free()
