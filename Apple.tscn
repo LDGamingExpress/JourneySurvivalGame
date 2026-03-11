@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://igxahuacqkj4"]
+
+[ext_resource type="PackedScene" uid="uid://p7tgq2ojau5k" path="res://Models/Apple.glb" id="1_t6odu"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_t6odu"]
+
+[node name="Apple" type="Node3D"]
+metadata/Loot = "Apple"
+metadata/Amount = 1
+
+[node name="Node3D" type="Node3D" parent="." groups=["Pickup"]]
+metadata/Loot = "Apple"
+metadata/Amount = 1
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Node3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/RigidBody3D"]
+shape = SubResource("SphereShape3D_t6odu")
+
+[node name="Apple" parent="Node3D/RigidBody3D" instance=ExtResource("1_t6odu")]

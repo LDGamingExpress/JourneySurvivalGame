@@ -56,7 +56,8 @@ var ItemPaths = {
 	"Stone Pick": "res://StonePickaxe.tscn",
 	"Log": "res://Models/AutumnLog.glb",
 	"Stick": "res://Models/Stick.glb",
-	"Stone": "res://Models/SmallStone.glb"
+	"Stone": "res://Models/SmallStone.glb",
+	"Apple": "res://Models/Apple.glb"
 }
 # Dictionary tying the names of items (same as in the inventory and crafting) to the model paths for displaying the items
 # Can modify to reference necessary scenes of the items if not just a model is needed
@@ -86,6 +87,26 @@ func _ready() -> void:
 func _input(event): # Checks for input
 	if event is InputEventMouseMotion and !isCrafting: # Checks if the input is the mouse moving
 		rotate(Vector3.UP, -event.relative.x * 0.002) # Rotates the player horizontally with the mouse
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and $Camera3D/Hand.get_children().size() > 0:
+		if $Camera3D/Hand.get_child(0).scene_file_path == ItemPaths["Apple"]:
+			Eat(20)
+			var index = 0
+			for i in range(0, Inventory.size()):
+				if Inventory[i].size() > 0 and Inventory[i][0] == "Apple":
+					index = i
+			
+			Inventory[index][1] -= 1
+			if Inventory[index][1] <= 0:
+				Inventory[index] = []
+			
+			var SlotContainer = $Camera3D/CanvasLayer/Inventory.get_child(index).get_child(0)
+			if len(Inventory[index]) > 0:
+				SlotContainer.get_child(0).text = Inventory[index][0]
+				SlotContainer.get_child(1).text = str(Inventory[index][1])
+			else:
+				SlotContainer.get_child(0).text = ""
+				SlotContainer.get_child(1).text = ""
+			RefreshHand() # Called to change visual model in the player's hand
 
 # Called continuously
 func _physics_process(delta: float) -> void:
@@ -210,6 +231,15 @@ func _physics_process(delta: float) -> void:
 			MineProgress += delta # Adds time to mining progress (seconds)
 			if MineProgress >= MineObject.get_meta("MineTime"): # Grabs the meta data of the mineable object for mining time
 				var Counter = 0 # Counts items dropped
+				
+				if MineObject.get_child(0).is_in_group("Tree"):
+					var rand = randi_range(1, 3)
+					if rand == 3:
+						Counter += 1
+						var NewObj = load("res://Apple.tscn").instantiate() # Instantiates the dropped loot
+						NewObj.position = MineObject.global_position + Vector3(0,4*Counter,0) # Uses counter to spawn each dropped lot 4 units above the last
+						get_parent().add_child(NewObj) # Adds loot to the scene
+				
 				for i in range(0,len(MineObject.get_meta("Drops"))): # Loops through drops for the mineable object based on its meta data
 					for j in range(0,MineObject.get_meta("Amounts")[i]): # Loops through the amounts for each drop based on the object's meta data
 						Counter += 1 # Increases counter for each item being dropped

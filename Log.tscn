@@ -7,3 +7,5 @@ metadata/Loot = "Log"
 metadata/Amount = 1
 
 [node name="AutumnLog" parent="." groups=["Log", "Pickup"] instance=ExtResource("1_q72ua")]
+
+[editable path="AutumnLog"]
