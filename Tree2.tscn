@@ -1,0 +1,13 @@
+[gd_scene load_steps=5 format=3 uid="uid://de35wph7v76ho"]
+
+[ext_resource type="PackedScene" uid="uid://v53frp335i78" path="res://Log.tscn" id="1_e44xr"]
+[ext_resource type="PackedScene" uid="uid://dqc54djswhkxk" path="res://Stick.tscn" id="2_6no0i"]
+[ext_resource type="PackedScene" uid="uid://igxahuacqkj4" path="res://Apple.tscn" id="3_ckh4d"]
+[ext_resource type="PackedScene" uid="uid://b2odedfb403h6" path="res://Models/SpringTree2.glb" id="4_7t0w4"]
+
+[node name="Tree" type="Node3D"]
+metadata/Drops = [ExtResource("1_e44xr"), ExtResource("2_6no0i"), ExtResource("3_ckh4d")]
+metadata/Amounts = [1, 1, 1]
+metadata/MineTime = 1.0
+
+[node name="SpringTree2" parent="." groups=["Any", "Axe", "Hand", "Mineable", "Tree"] instance=ExtResource("4_7t0w4")]

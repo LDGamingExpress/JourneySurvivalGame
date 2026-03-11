@@ -42,7 +42,7 @@ var normal_array : PackedVector3Array
 var tangent_array : PackedFloat32Array
 var color_array : PackedColorArray
 
-var Trees = ["res://Tree.tscn"]
+var Trees = ["res://Tree.tscn","res://Tree2.tscn"]
 var Rocks = ["res://Rock1.tscn","res://Rock2.tscn","res://Rock3.tscn"]
 
 func _ready() -> void:
