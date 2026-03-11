@@ -9,3 +9,4 @@ metadata/Amounts = [3]
 metadata/MineTime = 1.5
 
 [node name="Rock3" parent="." groups=["Mineable", "Pickaxe"] instance=ExtResource("2_fw4ce")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)

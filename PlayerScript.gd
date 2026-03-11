@@ -11,6 +11,8 @@ var PickUpObject = null # Node the player can pick up
 
 var InitialRayActive = true # Used to set the initial position of the player
 
+var Music = ["res://Music/Danger Rising.mp3","res://Music/Landscape.mp3","res://Music/Night.mp3","res://Music/Open World.mp3"]
+
 #Player stats 
 var Health = 10.0
 var HealthTween
@@ -83,6 +85,7 @@ func _ready() -> void:
 		NewPanel.RecipeNumber = i
 		# Assigns value to the RecipeNumber of the crafting panel so the panel can call the _on_craft_button_pressed() function with the index of the recipe
 		get_node("Camera3D/CanvasLayer/CraftingWindow").add_child(NewPanel) # Adds the crafting panel to the crafting window
+	_on_music_player_finished()
 
 func _input(event): # Checks for input
 	if event is InputEventMouseMotion and !isCrafting: # Checks if the input is the mouse moving
@@ -412,3 +415,9 @@ func UpdateHealth(damage : float):
 	#HealthTween = create_tween()
 	$Camera3D/CanvasLayer/HealthPanel/HealthBar.value = Health
 	#HealthTween.tween_property($Camera3D/CanvasLayer/HealthPanel/HealthBar, "value", Health, 0.05).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+
+func _on_music_player_finished() -> void:
+	var Music2Play = Music.pick_random()
+	$MusicPlayer.stream = load(Music2Play)
+	$MusicPlayer.play()

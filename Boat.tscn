@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://2foc5uhjwgge"]
+
+[ext_resource type="PackedScene" uid="uid://c33s8alqem3js" path="res://Models/BasicWoodBoat.glb" id="1_mqihx"]
+
+[node name="Boat" type="Node3D"]
+
+[node name="BasicWoodBoat" parent="." groups=["Boat"] instance=ExtResource("1_mqihx")]

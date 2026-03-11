@@ -132,7 +132,7 @@ func update_mesh():
 	var material = StandardMaterial3D.new()
 	material.vertex_color_use_as_albedo = true
 	material.albedo_texture = load("res://Models/Land_Ground037_1K-PNG_Color.png")
-	material.uv1_scale = Vector3(30.0,30.0,30.0)
+	material.uv1_scale = Vector3(35.0,35.0,35.0)
 	mesh.surface_set_material(0, material)
 	
 	scale = Vector3(10.0,10.0,10.0)

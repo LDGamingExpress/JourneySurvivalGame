@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cra4e873bbj32"
+path="res://.godot/imported/Danger Rising.mp3-643559ba904c127e84db2aacba33baf9.mp3str"
+
+[deps]
+
+source_file="res://Music/Danger Rising.mp3"
+dest_files=["res://.godot/imported/Danger Rising.mp3-643559ba904c127e84db2aacba33baf9.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

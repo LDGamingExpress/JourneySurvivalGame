@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://p7tgq2ojau5k" path="res://Models/Apple.glb" id="1_t6odu"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_t6odu"]
+radius = 0.25
 
 [node name="Apple" type="Node3D"]
 metadata/Loot = "Apple"
@@ -18,3 +19,4 @@ metadata/Amount = 1
 shape = SubResource("SphereShape3D_t6odu")
 
 [node name="Apple" parent="Node3D/RigidBody3D" instance=ExtResource("1_t6odu")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)

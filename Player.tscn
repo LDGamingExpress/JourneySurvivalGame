@@ -366,3 +366,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3880079, -1.85571, -2.00874
 [node name="HungerTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="finished" from="MusicPlayer" to="." method="_on_music_player_finished"]
