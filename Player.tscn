@@ -41,6 +41,21 @@ target_position = Vector3(0, 0, -5)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Camera3D"]
 
+[node name="DrownRect" type="ColorRect" parent="Camera3D/CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1207.0
+offset_top = -724.5
+offset_right = 1207.0
+offset_bottom = 724.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.44313726, 0.69411767, 1, 0.50980395)
+
 [node name="TextureRect" type="TextureRect" parent="Camera3D/CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
@@ -360,6 +375,36 @@ value = 100.0
 fill_mode = 1
 show_percentage = false
 
+[node name="DeathMenu" type="VBoxContainer" parent="Camera3D/CanvasLayer"]
+process_mode = 3
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DeathLabel" type="Label" parent="Camera3D/CanvasLayer/DeathMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "You Died!"
+
+[node name="Restart" type="Button" parent="Camera3D/CanvasLayer/DeathMenu"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Restart Game"
+
+[node name="Quit" type="Button" parent="Camera3D/CanvasLayer/DeathMenu"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Quit"
+
 [node name="Hand" type="Node3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3880079, -1.85571, -2.0087419)
 
@@ -369,4 +414,6 @@ one_shot = true
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 
+[connection signal="pressed" from="Camera3D/CanvasLayer/DeathMenu/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="Camera3D/CanvasLayer/DeathMenu/Quit" to="." method="_on_quit_pressed"]
 [connection signal="finished" from="MusicPlayer" to="." method="_on_music_player_finished"]

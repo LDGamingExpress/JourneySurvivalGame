@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+var AlreadyDead = false
+
 var SPEED = 10.0 # Player speed
 var JUMP_VELOCITY = 5.5 # Player jump velocity
 var push_force = 1.0 # Player push force; used to allow forces on rigid bodies
@@ -118,6 +120,11 @@ func _physics_process(delta: float) -> void:
 		position.y = get_node("InitialRay").get_collision_point().y + 5.0
 		InitialRayActive = false
 		
+	if Health <= 0.0 and !AlreadyDead:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		$Camera3D/CanvasLayer/DeathMenu.visible = true
+		AlreadyDead = true
+		get_tree().paused = true
 	
 	var LastItemSelected = ItemSelected # Tracks the last item selected for comparison
 	
@@ -421,3 +428,12 @@ func _on_music_player_finished() -> void:
 	var Music2Play = Music.pick_random()
 	$MusicPlayer.stream = load(Music2Play)
 	$MusicPlayer.play()
+
+
+func _on_restart_pressed() -> void:
+	get_tree().paused = false
+	get_parent().get_tree().reload_current_scene()
+
+
+func _on_quit_pressed() -> void:
+	get_tree().quit()

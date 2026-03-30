@@ -7,3 +7,10 @@ func _ready():
 func _input(event): # Checks for input
 	if event is InputEventMouseMotion and !get_parent().isCrafting: # Checks if the input is the mouse moving and if the player is not crafting
 		rotate(Vector3.LEFT, event.relative.y * 0.001) # Rotates the player vertically with the mouse
+
+func _physics_process(delta: float) -> void:
+	if global_position.y <= Globals.OceanHeight + 2.0:
+		$CanvasLayer/DrownRect.visible = true
+		get_parent().UpdateHealth(0.01)
+	else:
+		$CanvasLayer/DrownRect.visible = false
